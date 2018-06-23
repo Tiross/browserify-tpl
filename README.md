@@ -1,14 +1,15 @@
-#browserify-handlebars
+# Browserify Templates Transform
+## browserify-tpl
 
 A browserify transform for handlebar templates! Yay!
 
-###Installation:
+### Installation:
 
-`npm install browserify-handlebars`
+`npm install browserify-tpl`
 
-###Usage:
+### Usage:
 
-Make a handlebars template like so:
+Make a *handlebars/hogan/mustache* template like so:
 
 ```html
 <!DOCTYPE html>
@@ -22,17 +23,23 @@ Make a handlebars template like so:
 </html>
 ```
 
-Now `require()` the handlebar template file in code like so:
+Now `require()` the *handlebars/hogan/mustache* template file in code like so:
 
 ```javascript
-var aTemplateFunction = require('./template.handlebars');
+var myTemplate = require('./template.tpl');
 
-var html = aTemplateFunction({title: "An instantiated template!", name: "David"});
+var html = myTemplate({title: "An instantiated template!", name: "John"});
 ```
 
-and run browserify with the transform option:
+To work, run *browserify* with the transform option:
 
 `browserify -t browserify-handlebars entry-point.js`
+
+Or using *gulp* like this:
+
+```javascript
+
+```
 
 That's all!
 
@@ -40,5 +47,7 @@ That's all!
 
 This transform module packages the handlebars templates with the handlebars runtime, which is smaller than the complete handlebars library. This is good, because it means smaller bundle files for you.
 
+## Credits
 
-
+This transform is a fork on David Manning [browserify-handlebars](https://github.com/dlmanning/browserify-handlebars) ! 
+Thanks!
