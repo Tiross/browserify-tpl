@@ -1,33 +1,34 @@
 {
-  "name": "browserify-handlebars",
+  "name": "browserify-tpl",
   "version": "1.0.0",
-  "description": "browserify transform for handlebars template files",
+  "description": "browserify transform for handlebars/hogan/mustache template files",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/dlmanning/browserify-handlebars.git"
+    "url": "https://github.com/mperon/browserify-tpl.git"
   },
   "keywords": [
     "browserify",
     "handlebars",
-    "transform"
+    "transform",
+    "hogan.js",
+    "mustache"
   ],
-  "author": "David Manning",
+  "author": "Peron",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/dlmanning/browserify-handlebars/issues"
+    "url": "https://github.com/mperon/browserify-tpl/issues"
   },
-  "homepage": "https://github.com/dlmanning/browserify-handlebars",
-  "dependencies": {
-    "through": "~2.3.4"
-  },
+  "homepage": "https://github.com/mperon/browserify-tpl",
+  "dependencies": {},
   "devDependencies": {
-    "handlebars": "~1.2.0"
+    "handlebars": "^4.0.11",
+    "hogan.js": "^3.0.2",
+    "mustache": "^2.3.0",
+    "yarn": "^1.7.0"
   },
-  "peerDependencies": {
-    "handlebars": ">= 1.2.0"
-  }
+  "peerDependencies": {}
 }
