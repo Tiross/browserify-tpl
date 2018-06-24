@@ -49,12 +49,47 @@ gulp.task("scripts", function () {
           .pipe(dest('build/'));
 });
 ```
+### Options
+
++ **patterns**:
+> Use this option to set the file extensions that will be check to transform work.
+> Default are `['.tpl', '.mustache', '.hb', '.html']`
+
++ **engine**:
+> Use this option to set the engine that will be used on transform:
+> The engines avaliable are: `mustache | handlebars | hogan"`.
+> Default value is: `handlebars`
+
+If you want, you can pass an function in **engine** option and compile yourserf the code:
+```javascript
+  .transform('browserify-tpl', {
+      'patterns': ['.tpl', '.mustache', '.hg'],
+      'engine': function(input, compilerOptions) {
+          var myEngine = require('myEngine');
+          var compiled = myEngine.compileString(input, compilerOptions);
+          var out = [
+              'var myEngine = require("myEngine/runtime");',
+              'module.exports = template(' + compiled + ');',
+          ];
+          return out.join("\n");
+      }
+  });
+```
++ **compilerOptions**:
+> You can use this to pass to compiler a set of options. Each engine use some options  on compiler comand.
+> *Handlebars*: [Compile Options](https://handlebarsjs.com/reference.html)
+> *Hogan.js*: [Compile](https://github.com/twitter/hogan.js/#compilation-options)
+> *Mustache*: none.
 
 That's all!
 
 ## Implementation details
 
-This transform module packages the handlebars templates with the handlebars runtime, which is smaller than the complete handlebars library. This is good, because it means smaller bundle files for you.
+When using **Handlebars**, this transform module packages the handlebars templates with the handlebars runtime, which is smaller than the complete handlebars library. This is good, because it means smaller bundle files for you.
+
+When using **hogan.js** this trasform compiles ahead of time the template and makes them avaliable for use.
+
+When using **Mustache**, because there is no compilation for this library, just get the content of file and loads as string.
 
 ## Next (SOOON!)
 
@@ -65,13 +100,13 @@ We will support multiples templates inside a require. Something like:
   <html lang="en">
   <head></head>
   <body>
-  <script id="helloWorld" type="text/html">
+  <script id="helloWorld" type="text/x-handlebars-template">
     Hello World {{name}}
   </script>
-  <script id="goodMorning" type="text/html">
+  <script id="goodMorning" type="text/x-handlebars-template">
     Good Morning {{name}}
   </script>
-  <script id="goodAfternoon" type="text/html">
+  <script id="goodAfternoon" type="text/x-handlebars-template">
     Good Afternoon {{name}}
   </script>
   </body>

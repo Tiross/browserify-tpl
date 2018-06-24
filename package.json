@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mperon/browserify-tpl.git"
+    "url": "git@github.com:mperon/browserify-tpl.git"
   },
   "keywords": [
     "browserify",
