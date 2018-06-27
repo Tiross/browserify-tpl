@@ -1,6 +1,6 @@
 {
   "name": "browserify-tpl",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "browserify transform for handlebars/hogan/mustache template files",
   "main": "index.js",
   "scripts": {
