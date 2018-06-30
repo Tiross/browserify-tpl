@@ -55,25 +55,39 @@ gulp.task("scripts", function () {
 > Use this option to set the file extensions that will be check to transform work.
 > Default are `['.tpl', '.mustache', '.hb', '.html']`
 
++ **partials**:
+> True or False; If *true* the code will parse the html file and search for script tags with `type=""` defined in option type below. If *false*, this transform will ignore partials.
+
++ **type**:
+> Mime type of scripts to transform search and filter and use as partials. Default is   `"text/x-handlebars-template"`
+
 + **engine**:
 > Use this option to set the engine that will be used on transform:
 > The engines avaliable are: `mustache | handlebars | hogan"`.
 > Default value is: `handlebars`
 
-If you want, you can pass an function in **engine** option and compile yourserf the code:
+If you want, you can pass an function in **engine** option and compile yourserf the code. Input can be an object if you are using multiple templates. you must handle yourself:
+
 ```javascript
-  .transform('browserify-tpl', {
-      'patterns': ['.tpl', '.mustache', '.hg'],
-      'engine': function(input, compilerOptions) {
-          var myEngine = require('myEngine');
+.transform('browserify-tpl', {
+  'patterns': ['.tpl', '.mustache', '.hg'],
+  'engine': function(input, compilerOptions) {
+    var myEngine = require('myEngine');
+    var out = ['var myEngine = require("myEngine/runtime");'];
+    if (!isObject(input)) {
+      var compiled = myEngine.compileString(input, compilerOptions);
+      out.push('module.exports = template(' + compiled + ');');
+    } else {
+      //multiple templates when key is id of template and value is template data:
+      out.push('module.exports = {}');
+      Object.keys(input).forEach(function (key) {
           var compiled = myEngine.compileString(input, compilerOptions);
-          var out = [
-              'var myEngine = require("myEngine/runtime");',
-              'module.exports = template(' + compiled + ');',
-          ];
-          return out.join("\n");
-      }
-  });
+          out.push('module.exports["'+key+'"] = myEngine.template('+compiled +');')
+      });
+    }
+    return out.join("\n");
+  }
+});
 ```
 + **compilerOptions**:
 > You can use this to pass to compiler a set of options. Each engine use some options  on compiler comand.
@@ -91,9 +105,9 @@ When using **hogan.js** this trasform compiles ahead of time the template and ma
 
 When using **Mustache**, because there is no compilation for this library, just get the content of file and loads as string.
 
-## Next (SOOON!)
+## Multiple Templates in file
 
-We will support multiples templates inside a require. Something like:
+This transform support multiple templates in single file. Example:
 
 ```html
 <!DOCTYPE html>
@@ -119,10 +133,12 @@ var Tpl = require('./template.html');
 
 var htmlHelloWorld = Tpl.helloWorld({name: "John"});
 var htmlGoodMorning = Tpl.goodMorning({name: "John"});
+var root = Tpl.root({name: "tess"}); //root template is all file except scripts
 //and so on..
 ```
 
 ## Credits
 
 This transform is a fork on David Manning [browserify-handlebars](https://github.com/dlmanning/browserify-handlebars) !
+
 Thanks!
